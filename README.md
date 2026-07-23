@@ -8,6 +8,12 @@
   English · 简体中文 · NFC · Three.js · Gaussian Splats · WeChat Mini Program
 </p>
 
+<p align="center">
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" /></a>
+  <img src="https://img.shields.io/badge/WeChat-Mini%20Program-07C160" alt="WeChat Mini Program" />
+  <img src="https://img.shields.io/badge/Languages-English%20%7C%20简体中文-2563EB" alt="English and Simplified Chinese" />
+</p>
+
 The project combines a native WeChat Mini Program with a separately deployed WebGL viewer. Users can discover models, inspect their descriptions, save favorites, review history, scan an NFC tag, and interact with PLY, SPLAT, or KSPLAT scenes on a phone.
 
 ## Preview
@@ -328,17 +334,15 @@ The runtime source is approximately 1.5 MB. Avatar images account for most of th
 
 ## Project ownership
 
-This project is independently created and maintained by its owner.
+This project was independently created and is maintained by **ZAID MOUNTAHI**.
 
-<!-- Replace these placeholders after the owner provides the preferred public details. -->
-
-- **Creator:** Your name
-- **GitHub:** Your GitHub profile
+- **Creator:** ZAID MOUNTAHI
 - **Role:** Project creator and maintainer
-- **Contact:** Optional public email or website
 
 If you reuse or reference this work, please retain appropriate credit to the project owner.
 
 ## License
 
-No public license has been selected yet. Unless a license file is added, the repository should be treated as all rights reserved by the project owner.
+This project is released under the [MIT License](./LICENSE).
+
+Copyright © 2026 ZAID MOUNTAHI. The MIT License allows use, modification, distribution, and commercial use as long as the copyright and license notice are retained.
