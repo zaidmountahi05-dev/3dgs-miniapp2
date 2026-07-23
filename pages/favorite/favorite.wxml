@@ -1,0 +1,31 @@
+<view class="container">
+  <view class="header">
+    <view>
+      <text class="title">{{i18n.favorites.title}}</text>
+      <text class="subtitle">{{countLabel}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{favoriteModels.length === 0}}" class="empty-state">
+    <view class="empty-icon">☆</view>
+    <text class="empty-text">{{i18n.favorites.empty}}</text>
+    <text class="empty-subtext">{{i18n.favorites.hint}}</text>
+    <button class="action-btn" bindtap="goToScan">{{i18n.favorites.explore}}</button>
+  </view>
+
+  <view wx:else class="list">
+    <view wx:for="{{favoriteModels}}" wx:key="id" class="item">
+      <view class="item-main" bindtap="openModel" data-model="{{item}}">
+        <image class="thumb" src="{{item.thumbnail}}" mode="aspectFill"></image>
+        <view class="info">
+          <text class="name">{{item.title}}</text>
+          <text class="sub">{{item.subtitle}}</text>
+          <text class="meta">{{item.typeLabel}}</text>
+        </view>
+      </view>
+      <button class="delete-btn" bindtap="removeFavorite" data-model="{{item}}">
+        {{i18n.common.delete}}
+      </button>
+    </view>
+  </view>
+</view>

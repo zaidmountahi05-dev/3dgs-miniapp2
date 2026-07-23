@@ -1,0 +1,125 @@
+<template name="modelCard">
+  <view
+    class="image-card"
+    bindtap="openModel"
+    bindlongpress="showModelActions"
+    data-model="{{model}}"
+    data-source="{{source}}"
+  >
+    <image src="{{model.thumbnail}}" mode="aspectFill" class="grid-image"></image>
+    <view class="image-info">
+      <text class="image-title">{{model.title}}</text>
+      <text class="image-date">{{model.subtitle}}</text>
+      <view class="card-actions">
+        <button class="card-action details-action" catchtap="openDescription" data-model="{{model}}">
+          {{i18n.home.viewDescription}}
+        </button>
+        <button
+          class="card-action favorite-action {{model.isFavorite ? 'active' : ''}}"
+          catchtap="toggleFavorite"
+          data-model="{{model}}"
+        >
+          {{model.isFavorite ? i18n.home.removeFavorite : i18n.home.addFavorite}}
+        </button>
+      </view>
+    </view>
+  </view>
+</template>
+
+<view class="container">
+  <view class="user-info card" bindtap="openSettings">
+    <view class="user-avatar">
+      <image src="{{userInfo.avatar}}" mode="aspectFill"></image>
+    </view>
+    <view class="user-details">
+      <text class="user-name">{{userInfo.name}}</text>
+      <text class="user-stats">{{stats.recent}}</text>
+      <text class="user-stats">{{stats.favorites}}</text>
+      <text class="user-stats">{{stats.all}}</text>
+    </view>
+    <text class="edit-hint">{{i18n.home.settings}} ›</text>
+  </view>
+
+  <view class="card">
+    <text class="section-title">{{i18n.home.nfcStatus}}</text>
+    <text class="user-stats">
+      {{i18n.home.deviceSupported}} {{nfcSupported ? i18n.common.yes : i18n.common.no}}
+    </text>
+    <text class="user-stats">
+      {{i18n.home.scanning}} {{scanning ? i18n.common.yes : i18n.common.no}}
+    </text>
+    <text wx:if="{{lastError}}" class="error-text">{{lastError}}</text>
+  </view>
+
+  <view class="card search-card">
+    <view class="search-row">
+      <text class="search-icon">⌕</text>
+      <input
+        class="search-input"
+        type="text"
+        placeholder="{{i18n.home.search}}"
+        value="{{searchQuery}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+      />
+      <text wx:if="{{searchQuery}}" class="clear-icon" bindtap="clearSearch">×</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <text class="section-title">{{i18n.home.allModels}}</text>
+    <view class="images-grid">
+      <template
+        wx:for="{{filteredModels}}"
+        wx:key="id"
+        is="modelCard"
+        data="{{model: item, source: 'all', i18n: i18n}}"
+      />
+      <view wx:if="{{filteredModels.length === 0}}" class="empty-state">
+        <text>{{searchQuery ? i18n.home.noMatches : i18n.home.noModels}}</text>
+        <text class="empty-hint">
+          {{searchQuery ? i18n.home.tryKeywords : i18n.home.addCatalog}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{!searchQuery}}" class="section">
+    <text class="section-title">{{i18n.home.recent}}</text>
+    <view class="images-grid">
+      <template
+        wx:for="{{recentModels}}"
+        wx:key="id"
+        is="modelCard"
+        data="{{model: item, source: 'recent', i18n: i18n}}"
+      />
+      <view wx:if="{{recentModels.length === 0}}" class="empty-state">
+        <text>{{i18n.home.noRecent}}</text>
+        <text class="empty-hint">{{i18n.home.recentHint}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{!searchQuery}}" class="section">
+    <text class="section-title">{{i18n.home.favorites}}</text>
+    <view class="images-grid">
+      <template
+        wx:for="{{favoriteModels}}"
+        wx:key="id"
+        is="modelCard"
+        data="{{model: item, source: 'favorite', i18n: i18n}}"
+      />
+      <view wx:if="{{favoriteModels.length === 0}}" class="empty-state">
+        <text>{{i18n.home.noFavorites}}</text>
+        <text class="empty-hint">{{i18n.home.favoriteHint}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="nfc-section">
+    <button class="nfc-btn btn-cta" bindtap="startNFCReading" loading="{{loading}}">
+      <text class="nfc-icon">NFC</text>
+      <text>{{i18n.home.scan}}</text>
+    </button>
+  </view>
+</view>

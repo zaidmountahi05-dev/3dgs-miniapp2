@@ -1,0 +1,39 @@
+<view class="details-page">
+  <view wx:if="{{loading}}" class="state">
+    <text>{{i18n.model.loading}}</text>
+  </view>
+
+  <view wx:elif="{{error}}" class="state">
+    <text class="error">{{error}}</text>
+    <button bindtap="retryLoad">{{i18n.common.retry}}</button>
+  </view>
+
+  <view wx:else>
+    <image class="hero" src="{{scene.thumbnail}}" mode="aspectFill"></image>
+    <view class="card heading">
+      <view>
+        <text class="title">{{scene.title}}</text>
+        <text class="subtitle">{{scene.subtitle}}</text>
+      </view>
+      <button class="favorite {{isFavorite ? 'active' : ''}}" bindtap="toggleFavorite">
+        {{isFavorite ? i18n.model.favorited : i18n.model.favorite}}
+      </button>
+    </view>
+
+    <view class="card">
+      <text class="section-title">{{i18n.model.detailsTitle}}</text>
+      <text class="description">{{scene.description}}</text>
+      <view class="meta">
+        <text>{{typeLabel}}</text>
+        <text>{{formatLabel}}</text>
+        <text>{{idLabel}}</text>
+      </view>
+      <view wx:if="{{scene.tags.length}}" class="tags">
+        <text class="tag-title">{{i18n.model.tags}}</text>
+        <text wx:for="{{scene.tags}}" wx:key="*this" class="tag">{{item}}</text>
+      </view>
+    </view>
+
+    <button class="viewer-btn" bindtap="openViewer">{{i18n.model.openViewer}}</button>
+  </view>
+</view>

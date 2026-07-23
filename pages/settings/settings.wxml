@@ -1,0 +1,102 @@
+<view class="settings-page">
+  <view class="section-card">
+    <text class="section-title">{{i18n.settings.profile}}</text>
+    <view class="profile-row">
+      <image class="avatar" src="{{userInfo.avatar}}" mode="aspectFill" bindtap="openAvatarPicker"></image>
+      <view class="profile-copy">
+        <text class="label">{{i18n.settings.nickname}}</text>
+        <text class="value">{{userInfo.name}}</text>
+      </view>
+      <button class="small-btn" bindtap="changeNickname">{{i18n.settings.changeNickname}}</button>
+    </view>
+    <button class="row-btn" bindtap="openAvatarPicker">{{i18n.settings.chooseAvatar}}</button>
+  </view>
+
+  <view class="section-card">
+    <text class="section-title">{{i18n.settings.language}}</text>
+    <text class="hint">{{i18n.settings.languageHint}}</text>
+    <view class="language-row">
+      <button
+        class="choice {{language === 'en' ? 'active' : ''}}"
+        data-language="en"
+        bindtap="changeLanguage"
+      >
+        {{i18n.settings.english}}
+      </button>
+      <button
+        class="choice {{language === 'zh-CN' ? 'active' : ''}}"
+        data-language="zh-CN"
+        bindtap="changeLanguage"
+      >
+        {{i18n.settings.chinese}}
+      </button>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <text class="section-title">{{i18n.settings.viewer}}</text>
+    <view class="setting-row">
+      <text>{{i18n.settings.autoRotate}}</text>
+      <switch checked="{{preferences.autoRotate}}" data-key="autoRotate" bindchange="changeToggle" />
+    </view>
+    <view class="setting-row">
+      <text>{{i18n.settings.reducedMotion}}</text>
+      <switch checked="{{preferences.reducedMotion}}" data-key="reducedMotion" bindchange="changeToggle" />
+    </view>
+    <view class="setting-row">
+      <text>{{i18n.settings.showControls}}</text>
+      <switch checked="{{preferences.showControls}}" data-key="showControls" bindchange="changeToggle" />
+    </view>
+    <view class="setting-row">
+      <text>{{i18n.settings.quality}}</text>
+      <picker range="{{qualityOptions}}" value="{{qualityIndex}}" bindchange="changeQuality">
+        <text class="picker-value">{{qualityOptions[qualityIndex]}} ›</text>
+      </picker>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <text class="section-title">{{i18n.settings.storage}}</text>
+    <text class="hint">{{i18n.settings.localOnly}}</text>
+    <button class="row-btn" bindtap="clearHistory">{{i18n.settings.clearHistory}}</button>
+    <button class="row-btn" bindtap="clearFavorites">{{i18n.settings.clearFavorites}}</button>
+    <button class="row-btn danger" bindtap="resetAll">{{i18n.settings.resetAll}}</button>
+  </view>
+
+  <view class="section-card">
+    <text class="section-title">{{i18n.settings.about}}</text>
+    <text class="about-copy">{{i18n.settings.appDescription}}</text>
+    <view class="info-row">
+      <text>{{i18n.settings.version}}</text>
+      <text>{{appVersion}}</text>
+    </view>
+    <view class="info-row">
+      <text>{{i18n.settings.formats}}</text>
+      <text>PLY · SPLAT · KSPLAT</text>
+    </view>
+    <view class="info-row">
+      <text>{{i18n.settings.technology}}</text>
+      <text>Three.js · GaussianSplats3D</text>
+    </view>
+    <view class="info-column">
+      <text class="label">{{i18n.settings.support}}</text>
+      <text class="hint">{{i18n.settings.supportValue}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{avatarPickerVisible}}" class="backdrop" bindtap="closeAvatarPicker">
+    <view class="avatar-picker" catchtap="noop">
+      <view class="avatar-grid">
+        <image
+          wx:for="{{avatars}}"
+          wx:key="*this"
+          class="avatar-option {{userInfo.avatar === item ? 'selected' : ''}}"
+          src="{{item}}"
+          mode="aspectFill"
+          data-index="{{index}}"
+          bindtap="selectAvatar"
+        ></image>
+      </view>
+    </view>
+  </view>
+</view>

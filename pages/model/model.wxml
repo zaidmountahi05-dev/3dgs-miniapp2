@@ -1,0 +1,37 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="state-box">
+    <text class="state-title">{{i18n.model.loading}}</text>
+    <text class="state-desc">{{i18n.model.preparing}}</text>
+  </view>
+
+  <view wx:elif="{{error}}" class="state-box">
+    <text class="state-title">{{i18n.model.failed}}</text>
+    <text class="state-desc">{{error}}</text>
+    <button class="retry-btn" bindtap="retryLoad">{{i18n.common.retry}}</button>
+  </view>
+
+  <view wx:else class="viewer-page">
+    <view class="viewer-header">
+      <view class="header-main">
+        <text class="scene-title">{{scene.title}}</text>
+        <text class="scene-subtitle">{{scene.subtitle}}</text>
+      </view>
+      <button
+        class="favorite-btn {{isFavorite ? 'favorited' : ''}}"
+        bindtap="toggleFavorite"
+      >
+        {{isFavorite ? i18n.model.favorited : i18n.model.favorite}}
+      </button>
+    </view>
+
+    <view class="viewer-shell">
+      <web-view src="{{webviewUrl}}" bindmessage="onViewerMessage"></web-view>
+    </view>
+
+    <view class="scene-meta">
+      <text class="meta-item">{{typeLabel}}</text>
+      <text class="meta-item">{{idLabel}}</text>
+      <text class="meta-item">{{descriptionLabel}}</text>
+    </view>
+  </view>
+</view>

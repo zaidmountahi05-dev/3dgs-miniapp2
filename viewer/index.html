@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+    />
+    <title>Gaussian Viewer</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="viewer"></div>
+
+      <div id="topbar">
+        <div id="title-group">
+          <div id="title">3D Model Viewer</div>
+          <div id="subtitle">Loading...</div>
+        </div>
+        <button id="toggle-ui-btn" type="button">Hide controls</button>
+      </div>
+
+      <div id="toolbar">
+        <button data-preset="front" data-i18n="front" type="button">Front</button>
+        <button data-preset="left" data-i18n="left" type="button">Left</button>
+        <button data-preset="right" data-i18n="right" type="button">Right</button>
+        <button data-preset="top" data-i18n="top" type="button">Top</button>
+        <button data-preset="reset" data-i18n="reset" type="button">Reset</button>
+        <button id="autorotate-btn" type="button">Auto Rotate: Off</button>
+        <button id="orbit-btn" type="button">Orbit Path: Off</button>
+        <button id="help-btn" type="button">Help</button>
+        <button id="fullscreen-btn" type="button">Full screen</button>
+        <input
+          id="distance-slider"
+          type="range"
+          min="1"
+          max="10"
+          step="0.1"
+          value="3.5"
+        />
+      </div>
+
+      <div id="status-panel"><div id="status">Initializing viewer...</div><div id="progress-track"><div id="progress-bar"></div></div></div>
+      <div id="help-panel" class="hidden"><button id="help-close-btn" type="button">×</button><div id="help-title">Viewer controls</div><div id="help-copy">Drag to rotate · Pinch to zoom · Two-finger drag to pan</div></div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
