@@ -102,6 +102,24 @@ body {
   transform: scale(0.98);
 }
 
+#toolbar button.active {
+  background: #2563eb;
+  box-shadow: 0 0 0 1px rgba(147, 197, 253, 0.7);
+}
+
+body.immersive #title-group,
+body.immersive #status-panel,
+body.immersive #toolbar button:not(#fullscreen-btn),
+body.immersive #toolbar input {
+  display: none;
+}
+
+body.immersive #toolbar {
+  left: auto;
+  background: transparent;
+  backdrop-filter: none;
+}
+
 #status-panel {
   position: absolute;
   left: 12px;

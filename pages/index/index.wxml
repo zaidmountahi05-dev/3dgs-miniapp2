@@ -118,8 +118,7 @@
 
   <view class="nfc-section">
     <button class="nfc-btn btn-cta" bindtap="startNFCReading" loading="{{loading}}">
-      <text class="nfc-icon">NFC</text>
-      <text>{{i18n.home.scan}}</text>
+      NFC
     </button>
   </view>
 </view>

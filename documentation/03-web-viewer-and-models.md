@@ -18,7 +18,7 @@ The renderer limits pixel ratio based on the saved quality mode:
 - Automatic: maximum pixel ratio 1.5
 - High quality: maximum pixel ratio 2
 
-Rendering is skipped while the browser document is hidden. Reduced motion disables initial auto-rotation and prevents motion buttons from enabling automatic movement.
+Rendering is skipped while the browser document is hidden. Reduced motion disables automatic motion on startup, while an explicit user tap can still enable auto-rotate or orbit.
 
 ## User controls
 
@@ -28,7 +28,9 @@ Rendering is skipped while the browser document is hidden. Reduced motion disabl
 - Camera-distance slider
 - Show/hide controls
 - Bilingual help panel
-- Browser fullscreen where the WebView/platform allows it
+- Browser fullscreen where the WebView/platform allows it, with an immersive UI fallback in restricted WeChat WebViews
+
+Viewer handlers are bound before the remote model download begins, so controls respond on slow connections instead of remaining inactive until loading finishes.
 
 ## Viewer messages
 
@@ -39,4 +41,3 @@ The website sends `viewer-ready`, `viewer-error`, `camera-changed`, and `camera-
 Use a direct HTTPS URL and a file compatible with the GaussianSplats3D loader. Arbitrary OBJ/GLB mesh files are not supported by this renderer. The model host must allow the deployed viewer origin through CORS.
 
 Each scene can tune rotation, camera target/distance, zoom limits, and orbit speed. Always verify orientation and memory/performance on representative phones.
-

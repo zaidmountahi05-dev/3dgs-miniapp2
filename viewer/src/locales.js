@@ -21,6 +21,8 @@ const dictionaries = {
     help: 'Help',
     fullscreen: 'Full screen',
     exitFullscreen: 'Exit full screen',
+    immersiveOn: 'Immersive view enabled',
+    immersiveOff: 'Immersive view closed',
     helpTitle: 'Viewer controls',
     helpCopy: 'Drag to rotate · Pinch to zoom · Two-finger drag to pan · Use Reset to restore the camera'
   },
@@ -46,6 +48,8 @@ const dictionaries = {
     help: '帮助',
     fullscreen: '全屏',
     exitFullscreen: '退出全屏',
+    immersiveOn: '已进入沉浸视图',
+    immersiveOff: '已退出沉浸视图',
     helpTitle: '查看器操作',
     helpCopy: '拖动旋转 · 双指缩放 · 双指拖动平移 · 使用重置恢复相机'
   }

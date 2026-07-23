@@ -125,7 +125,9 @@ const state = {
   scriptedOrbit: false,
   orbitAngle: 0,
   orbitSpeed,
-  disposed: false
+  disposed: false,
+  immersive: false,
+  uiBound: false
 }
 
 init().catch((error) => {
@@ -185,6 +187,12 @@ async function init() {
   controls.autoRotateSpeed = VIEWER_CONFIG.autoRotateSpeed * state.orbitSpeed
   controls.update()
 
+  // Bind controls before the remote model download so every button responds
+  // immediately, even on a slow mobile connection.
+  bindUI()
+  bindResize()
+  updateModeButtons()
+
   if (distanceSlider) {
     distanceSlider.min = String(minDistance)
     distanceSlider.max = String(maxDistance)
@@ -222,8 +230,6 @@ async function init() {
     progressiveLoad: true
   })
 
-  bindUI()
-  bindResize()
   animate()
 
   updateModeButtons()
@@ -306,6 +312,9 @@ function bindResize() {
 }
 
 function bindUI() {
+  if (state.uiBound) return
+  state.uiBound = true
+
   if (toolbarEl) {
     toolbarEl.addEventListener('click', (event) => {
       const button = event.target.closest('button')
@@ -320,21 +329,21 @@ function bindUI() {
 
   if (autoRotateBtn) {
     autoRotateBtn.addEventListener('click', () => {
-      if (reducedMotion) return
       state.autoRotate = !state.autoRotate
       state.scriptedOrbit = false
 
       updateModeButtons()
+      setStatus(`${tr('autoRotate')}: ${tr(state.autoRotate ? 'on' : 'off')}`)
     })
   }
 
   if (orbitBtn) {
     orbitBtn.addEventListener('click', () => {
-      if (reducedMotion) return
       state.scriptedOrbit = !state.scriptedOrbit
       state.autoRotate = false
 
       updateModeButtons()
+      setStatus(`${tr('orbit')}: ${tr(state.scriptedOrbit ? 'on' : 'off')}`)
     })
   }
 
@@ -354,21 +363,51 @@ function bindUI() {
   helpBtn.addEventListener('click', () => helpPanel.classList.remove('hidden'))
   helpCloseBtn.addEventListener('click', () => helpPanel.classList.add('hidden'))
   fullscreenBtn.addEventListener('click', toggleFullscreen)
-  document.addEventListener('fullscreenchange', () => { fullscreenBtn.textContent = document.fullscreenElement ? tr('exitFullscreen') : tr('fullscreen') })
+  document.addEventListener('fullscreenchange', syncFullscreenButton)
 }
 
 async function toggleFullscreen() {
   try {
-    if (document.fullscreenElement) await document.exitFullscreen()
-    else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen()
+    if (document.fullscreenElement) {
+      await document.exitFullscreen()
+      return
+    }
+    if (document.documentElement.requestFullscreen) {
+      await document.documentElement.requestFullscreen()
+      return
+    }
   } catch (error) {
     console.warn('Fullscreen is unavailable:', error)
   }
+
+  toggleImmersiveMode()
+}
+
+function toggleImmersiveMode() {
+  state.immersive = !state.immersive
+  document.body.classList.toggle('immersive', state.immersive)
+  fullscreenBtn.textContent = state.immersive
+    ? tr('exitFullscreen')
+    : tr('fullscreen')
+  setStatus(tr(state.immersive ? 'immersiveOn' : 'immersiveOff'))
+}
+
+function syncFullscreenButton() {
+  const isFullscreen = Boolean(document.fullscreenElement)
+  fullscreenBtn.textContent = isFullscreen || state.immersive
+    ? tr('exitFullscreen')
+    : tr('fullscreen')
 }
 
 function updateModeButtons() {
-  if (autoRotateBtn) autoRotateBtn.textContent = `${tr('autoRotate')}: ${tr(state.autoRotate ? 'on' : 'off')}`
-  if (orbitBtn) orbitBtn.textContent = `${tr('orbit')}: ${tr(state.scriptedOrbit ? 'on' : 'off')}`
+  if (autoRotateBtn) {
+    autoRotateBtn.textContent = `${tr('autoRotate')}: ${tr(state.autoRotate ? 'on' : 'off')}`
+    autoRotateBtn.classList.toggle('active', state.autoRotate)
+  }
+  if (orbitBtn) {
+    orbitBtn.textContent = `${tr('orbit')}: ${tr(state.scriptedOrbit ? 'on' : 'off')}`
+    orbitBtn.classList.toggle('active', state.scriptedOrbit)
+  }
 }
 
 function applyPreset(name) {
